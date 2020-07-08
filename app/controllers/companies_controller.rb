@@ -10,6 +10,7 @@ class CompaniesController < ApplicationController
   end
 
   def show
+    @city_state = AddressService.city_state(@company.zip_code)
   end
 
   def create
@@ -30,7 +31,15 @@ class CompaniesController < ApplicationController
     else
       render :edit
     end
-  end  
+  end
+
+  def destroy
+      @company.destroy
+      respond_to do |format|
+         format.html { redirect_to companies_path, notice: 'Company was successfully destroyed.' }
+         format.json { head :no_content }
+      end
+   end
 
   private
 
